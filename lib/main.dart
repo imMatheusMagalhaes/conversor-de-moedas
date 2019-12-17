@@ -10,9 +10,8 @@ void main() async {
   print(json.decode(response.body)['results']['currencies']['USD']);
 
   runApp(MaterialApp(
-      home: Home(),
-      
-      ));
+    home: Home(),
+  ));
 }
 
 //obtendo json
@@ -75,56 +74,11 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       Icon(Icons.monetization_on,
                           size: 150, color: Color.fromRGBO(0, 126, 66, 1)),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
-                        decoration: InputDecoration(
-                            labelText: 'Real',
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(0, 126, 66, 1),
-                                fontSize: 25),
-                            border: OutlineInputBorder(),
-
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color.fromRGBO(0, 126, 66, 1))),
-                            prefixText: 'R\$ ',
-                            prefixStyle: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25)
-                            ),
-                      ),
+                      inputTet('Real', 'R\$ '),
                       Divider(),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
-                        decoration: InputDecoration(
-                            labelText: 'Dolar',
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(0, 126, 66, 1),
-                                fontSize: 25),
-                            border: OutlineInputBorder(),
-
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color.fromRGBO(0, 126, 66, 1))),
-                            prefixText: 'USS ',
-                            prefixStyle: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25)
-                            ),
-                      ),
+                      inputTet('Dolar', 'USS '),
                       Divider(),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
-                        decoration: InputDecoration(
-                            labelText: 'Euro',
-                            labelStyle: TextStyle(
-                                color: Color.fromRGBO(0, 126, 66, 1),
-                                fontSize: 25),
-                            border: OutlineInputBorder(),
-
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color.fromRGBO(0, 126, 66, 1))),
-                            prefixText: 'EUR ',
-                            prefixStyle: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25)
-                            ),
-                      ),
+                      inputTet('Euro', 'EUR ')
                     ],
                   ),
                 );
@@ -134,4 +88,30 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+Widget inputTet(String label, String prefix) {
+  return TextField(
+    keyboardType: TextInputType.number,
+    style: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
+    decoration: InputDecoration(
+        labelText: label,
+        labelStyle:
+            TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
+        border: OutlineInputBorder(),
+
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color.fromRGBO(0, 126, 66, 1))
+        ),
+        //colocar essa pra borda mudar cor na seleção
+
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color.fromRGBO(0, 126, 66, 1))
+        ),
+        //colocar essa pra borda ficar OURO antes da seleção
+        
+        prefixText: prefix,
+        prefixStyle:
+            TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25)),
+  );
 }
