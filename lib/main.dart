@@ -26,6 +26,51 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final _realController = TextEditingController();
+  final _dolarController = TextEditingController();
+  final _euroController = TextEditingController();
+
+  void _clearAll(){
+    _realController.text = "";
+    _dolarController.text = "";
+    _euroController.text = "";
+  }
+
+  void _realChanged(String text){
+    if(text.isEmpty) {
+      _clearAll();
+      return;
+    }
+
+    double real = double.parse(text);
+    _dolarController.text = (real/dolar).toStringAsFixed(2);
+    _euroController.text = (real/euro).toStringAsFixed(2);
+  }
+
+  void _dolarChanged(String text){
+    if(text.isEmpty) {
+      _clearAll();
+      return;
+    }
+
+    double dolar = double.parse(text);
+    _realController.text = (dolar*this.dolar).toStringAsFixed(2);
+    _euroController.text = (dolar*this.dolar/euro).toStringAsFixed(2);
+
+  }
+
+  void _euroChanged(String text){
+    if(text.isEmpty) {
+      _clearAll();
+      return;
+    }
+
+    double euro = double.parse(text);
+    _realController.text = (euro  * this.euro).toStringAsFixed(2);
+    _dolarController.text = (euro * this.euro  / dolar).toStringAsFixed(2);
+  }
+
   double dolar;
   double euro;
 
@@ -64,21 +109,28 @@ class _HomeState extends State<Home> {
                   textAlign: TextAlign.center,
                 ));
               } else {
+
                 dolar = snapshot.data['results']['currencies']['USD']['buy'];
                 euro = snapshot.data['results']['currencies']['EUR']['buy'];
 
                 return SingleChildScrollView(
+
                   padding: EdgeInsets.all(20),
+
                   child: Column(
+
                     crossAxisAlignment: CrossAxisAlignment.stretch,
+
                     children: <Widget>[
+
                       Icon(Icons.monetization_on,
                           size: 150, color: Color.fromRGBO(0, 126, 66, 1)),
-                      inputTet('Real', 'R\$ '),
+
+                      inputText('Real', 'R\$ ', _realController, _realChanged),
                       Divider(),
-                      inputTet('Dolar', 'USS '),
+                      inputText('Dolar', 'USS ', _dolarController, _dolarChanged),
                       Divider(),
-                      inputTet('Euro', 'EUR ')
+                      inputText('Euro', 'EUR ', _euroController, _euroChanged)
                     ],
                   ),
                 );
@@ -90,14 +142,15 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget inputTet(String label, String prefix) {
+Widget inputText(String label, String prefix, TextEditingController controller, Function changed) {
   return TextField(
+    controller: controller,
     keyboardType: TextInputType.number,
     style: TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
     decoration: InputDecoration(
         labelText: label,
         labelStyle:
-            TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25),
+            TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 20),
         border: OutlineInputBorder(),
 
         focusedBorder: OutlineInputBorder(
@@ -113,5 +166,6 @@ Widget inputTet(String label, String prefix) {
         prefixText: prefix,
         prefixStyle:
             TextStyle(color: Color.fromRGBO(0, 126, 66, 1), fontSize: 25)),
+        onChanged: changed,
   );
 }
